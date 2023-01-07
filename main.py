@@ -52,5 +52,6 @@ for destination in sheet_data:
         link = f"https://www.google.co.uk/flights?hl=en#flt={flight.origin_airport}.{flight.destination_airport}." \
                f"{flight.out_date}*{flight.destination_airport}.{flight.origin_airport}.{flight.return_date}"
 
-        notification_manager.send_sms(message)
-        NotificationManager.send_emails(emails, message, link)
+        # notification_manager.send_sms(message)
+        # NotificationManager.send_emails(emails, message, link)
+        NotificationManager.send_telegram_message(message)

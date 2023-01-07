@@ -1,4 +1,6 @@
 import smtplib
+
+import requests
 from twilio.rest import Client
 import os
 
@@ -10,6 +12,9 @@ TWILIO_VERIFIED_NUMBER = os.environ["ENV_TWILIO_VERIFIED_NUMBER"]
 MAIL_PROVIDER_SMTP_ADDRESS = "smtp.gmail.com"
 MY_EMAIL = os.environ["ENV_MY_EMAIL"]
 MY_PASSWORD = os.environ["ENV_MY_PASSWORD"]
+TELEGRAM_TOKEN = os.environ["ENV_TELEGRAM_TOKEN"]
+TELEGRAM_ENDPOINT = os.environ["ENV_TELEGRAM_ENDPOINT"]
+TELEGRAM_CHAT_ID = os.environ["ENV_TELEGRAM_CHAT_ID"]
 
 
 class NotificationManager:
@@ -37,3 +42,12 @@ class NotificationManager:
                     to_addrs=email,
                     msg=f"Subject:New Low Price Flight!\n\n{message}\n{google_flight_link}".encode('utf-8')
                 )
+
+    @staticmethod
+    def send_telegram_message(message):
+        telegram_params = {
+            "chat_id": TELEGRAM_CHAT_ID,
+            "text": message
+        }
+        response = requests.get(url=f"{TELEGRAM_ENDPOINT}{TELEGRAM_TOKEN}/sendMessage", params=telegram_params)
+        print(response.text)
